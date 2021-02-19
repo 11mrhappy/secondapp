@@ -46,3 +46,18 @@ void main() {
 }}  // 多分 { が1個足りないのはすでに関数かクラス内だからだと思う
   
   
+無名関数
+通常の関数は名前をつけて宣言した後に関数呼び出しをして処理を実行するが
+無名関数は、関数呼び出しを行う場所で関数の宣言を行い、実行させることができる
+メリット > ループ処理や非同期処理などでコード量の削減や可読性の向上を達成できる。
+
+void main() {
+  var list = ['apples', 'lemons', 'bananas'];
+  list.forEach((item){
+    print('${list.indexOf(item)}: $item');
+  });
+}
+0: apples
+1: lemons
+2: bananas
+(item){...}が無名関数となり、forEachはlistの要素を順にパラメータとして渡すメソッド
