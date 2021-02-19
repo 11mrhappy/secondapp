@@ -110,3 +110,80 @@ is! 指定した型をもたない
     }
 
 
+\条件分岐
+if-else, else if
+if文の評価はboolean型でのみ行われる
+if(isRaining()){
+  you.bringRainCoat();
+} else if (isSnowing()){
+  you.wearJacket();
+} else {
+  car.putTopDown();
+}
+
+for 繰り返し
+var message = StringBuffer('Dart is fun');
+for (var i = 0; i < 5; i++){
+  message.write('!');
+}
+
+for-in  listやmapなどのiterableな変数の内容に対するfor文はfor-inを使うことで無駄な変数を使わずに済む
+var collection = [1, 2, 3];
+for (var x in collection) {
+  print(x);
+}
+
+forEach forEachで簡略化も可能
+var candidates = [1, 2, 3];
+candidates.forEach((candidate) => candidate.interview());
+
+while, do-while
+条件が成立している間ループを実行する場合にwhileを使う
+while(!isDone()){
+  doSomething();
+}
+
+条件の評価を後に行う場合にはdo-whileを使う
+do{
+  printLine();
+}while(!atEndOfPage());
+
+break、continue
+for文やwhile文の中で、ループの途中でループをやめたい場合にはbreakを使う。
+while(true) {
+  if(shutDownRequested()) break;
+  processIncomingRequests();
+}
+
+ループのイテレーションの処理を終了し、次のイテレーションに移りたい場合にはcontinueを使う
+for(int i = 0; i < candidates.length; i++){
+  var candidate = candidates[i];
+  if(candidate.yearsExperience < 5){
+    continue;
+  }
+  candidate.interview();
+};
+
+簡略化したものがこちら
+candidates
+  .where((c) => c.yearsExperience >= 5)
+  .forEach((c) => c.interview());
+
+switch-case
+変数の内容によって複数の処理の分岐を行う場合にはswitchを使う
+caseの内容と==演算子による評価が行われ、trueとなった場合に実行される
+Dartではcase文の処理の終わりはbreakを使わないと次のcase文の後の処理まで実行されます
+*この仕組を利用したフォールスルーは便利だが、言語によって動きが異なるためコメントを入れるなどをする
+また、どのcase文にも当てはまらない場合にはdefault文以下のよりが実行されます
+var command = 'OPEN';
+switch(command){
+  case 'OPEN':
+    execOpen();
+    break;
+  case 'CLOSING':
+  case 'CLOSED':
+    execClosed();
+    break;
+  default:
+    execUnknown();
+}
