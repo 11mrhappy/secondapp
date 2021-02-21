@@ -187,3 +187,36 @@ switch(command){
   default:
     execUnknown();
 }
+
+
+\クラス
+dartはオブジェクト指向言語。すべてのオブジェクトはなんらかのクラスを実体化したもの
+dartではインスタンス化に使うnewは不必要(使ってもいい)
+インスタンス化したオブジェクト内のメンバー(インスタンス内のメソッドやプロパティ)にアクセスするには「.」を使う
+class Point {
+  double x;
+  double y;
+  double z = 0;
+}
+
+var p1 = Point();
+p1.x = 4;
+p1.y = 1;
+この例のp1にはPintクラスのインスタンス化されたオブジェクトが入る。
+
+インスタンスの初期化
+インスタンス化する際の初期化処理を行うコンストラクタはクラス名と同名のメソッドで宣言する
+class Point {
+  double x;
+  double y;
+  // 通常のコンストラクタ
+  print(double x, double this.y){  // this??
+    this.x = x;
+    this.y = y;
+  }
+  // 名前付きのコンストラクタ
+  Point.origin(){
+    x = 0;
+    y = 0;
+  }
+}
