@@ -220,3 +220,74 @@ class Point {
     y = 0;
   }
 }
+
+プロパティ
+インスタンス外からアクセスさせたくない変数には、変数の名前の先頭を「_」にして宣言する
+これによってインスタンス内に閉じたプライベートな変数(ローカル変数)として扱われる
+class Point {
+  final num x;
+  final num y;
+  double _area; //ローカル変数
+  Point(this.x, this.y){
+    _area = x * y;
+  }
+}
+
+
+\非同期サポート
+Future, async/await, Stream
+
+Futureオブジェクト
+非同期処理の結果をfuture<T>オブジェクトで表現する。Tは変数型を指し、intやStringらが入る
+futureを返す関数は実行直後にからのfutureオブジェクトが返された状態で実行される。
+非同期に実行された関数が正常終了かエラーで終了すると、結果を先程の空のFutureオブジェクトに格納する
+そうするとFuture APIとと呼ばれるコールバック関数を通して後続の処理を実行する
+void main() {
+  Future.delayed(
+    const Duration(seconds: 3),
+    () => 100,
+  ).then((value) {
+    print('the value is $value.');
+  });
+  print('Waiting for a value..');
+}
+結果 先にwaiting for..が先に出力され、3秒後 the value is..が出力される
+つまり、Futureオブジェクトのdelayedメソッドを使い、呼び出された3秒後に無名関数を実行し、100を返す処理。
+thenメソッドでは、Future APIで非同期処理が正常終了した場合にコールバックする関数を登録する
+もしエラーハンドリングが必要ならcatchErrorメソッドを使い、異常終了時にコールバックする関数を登録する
+void main() {
+  Future.delayed(
+    const Duration(seconds: 3),
+    () => 100,
+  ).then((value) {
+    print('the value is $value.');
+  }).catchError((e) => print(e));
+  print('Waiting for a value..');
+}
+
+async/await
+futureオブジェクトを返す関数をawaitををつけて呼ぶと関数から結果が返されるまで処理を待つ。
+awaitを使う関数にはasyncをつけるルールになっていて、asyncがついた関数の戻り値の型は必ずFutureになる
+関数の例
+Future checkVersion() async {
+  var version = await lookUpVersion();
+  await startProgram(version);
+}
+
+非同期処理を順番に実行するさっきのコードの例
+Future<void> main() async {
+  var value;
+  value = await Future.delayed(
+    const Duration(seconds: 3),
+    () => 100,
+  );
+  print('the value is $value.');
+  
+  value = await Future.delayed(
+    const Duration(seconds: 3),
+    () => 200,
+  );
+  print('the next value is $value.');
+  
+  print('Waiting for a value..');
+}
