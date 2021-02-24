@@ -291,3 +291,62 @@ Future<void> main() async {
   
   print('Waiting for a value..');
 }
+// 出力=> the value is 100.
+        the next value is 200.
+        Waiting for a value..
+
+awaitで実行中の非同期処理におけるエラーを捕捉したい場合にはtry-catchを使う
+以下のように書くことでどの非同期処理でエラーが起こっても、1つのエラー処理ルーチンで対応することができる
+Future checkVersion() async {
+  try{
+    var version = await lookUpVersion();
+    await startProgram(version);
+  }catch(e){
+    //非同期処理のエラー処理
+    orint('Error: $e');
+  }
+}
+
+Futureは単一の非同期処理を扱うための機能だが、断続的に処理が発生するイベントに対する非同期処理を行うにはStreamを使う
+Streamはstreamにデータを発行する側とsteramからデータを読み出したい登録(listen)した側で非同期にメッセージの受け渡しができる
+とりあえずstreamcontrollerを使えば問題ない
+import 'dart:async';
+
+var controller = StreamController<LString>();
+
+void registerListener(){
+  controller.stream.listen((val) => print("received data: $val"));
+}
+
+main() {
+  registerListener();
+  controller.sink.add("hello");
+  controller.sink.add("welcome");
+}
+
+StreamControllerでStream処理の基本的な機能を実装できる
+controller.streamがStreamオブジェクトになっており、これにlistenメソッドでコールバック関数を登録する
+ここでは受け取ったデータを表示するだけの関数を登録してる
+データを送る側はcontroller.sinkがStreamSinkインターフェイスを持っており、addメソッドでデータを登録する
+これだけでlistenerに登録した関数にデータを送信できる
+また、複数のlistenerにデータを送信したい場合にはStreamControllerのbroadcastコンストラクタを使う
+import 'dart:async';
+
+var controller = StreamController<LString>.broadcast();
+
+void registerListener(){
+  controller.stream.listen((val) => print("received data1: $val"));
+  controller.stream.listen((val) => print("received data2: $val"));
+}
+
+main() {
+  registerListener();
+  controller.sink.add("hello");
+  controller.sink.add("welcome");
+}
+
+// 結果
+received data1: hello
+received data2: hello
+received data1: welcome
+received data2: welcome
