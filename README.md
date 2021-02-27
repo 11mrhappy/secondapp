@@ -109,6 +109,22 @@ is! 指定した型をもたない
       person.division = 'div no.1';
     }
 
+cascade
+objectをわざわざ繰り返し書かなくても、property操作を可能にする
+注意しなければいけないのは左辺がわからない場合使えない
+
+var button = querySelector('#confirm');
+button.text = 'Confirm';
+button.classes.add('important');
+button.onClick.listen((e) => window.alert('Confirmed!'));
+
+上記と同じことを行なっている
+
+querySelector('#confirm')   //Objectが返り値となる
+  ..text = 'Confirm'        // Use its members.
+  ..classes.add('important')
+  ..onClick.listen((e) => window.alert('Confirmed!'));
+
 
 \条件分岐
 if-else, else if
