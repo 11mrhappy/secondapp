@@ -205,6 +205,38 @@ switch(command){
 }
 
 
+\コードの分割とディレクトリやファイルの役割
+
+lib/main.dart
+アプリの起動時に処理される部分で、 MaterialApp が処理されます。
+
+lib/model/
+その名の通り MVC の M を実装していきます。
+
+lib/view/
+MVCのM(model)のに対してV(View)を実装していきます。
+
+lib/view/widget/
+各画面で共通化してつかうwidgetを実装していきます。
+
+lib/view/home/
+実際に表示される画面の各パーツを実装していきます。画面が増えていくとこのディレクトリも増えていきます。
+
+lib/view/home/main.dart
+画面全体について実装します。内容的には Scaffold と AppBar を実装することが多いでしょう。
+
+lib/view/home/body.dart
+Scaffold:bodyにぶら下がるWidgetを実装します。内容がリスト表示のみの画面であればContainerだけの実装になる場合もあります。
+
+lib/view/home/list.dart
+list表示させるWidgetを実装します。 listview.builderやFuterBuilder, StreamBuilderを実装することが多いでしょう。
+
+lib/view/home/item.dart
+実際にlistで表示される項目を実装します。ListTileやCard等のWidgetで実装するのが楽ですが、Containerを使って独自の表現をすることもできます。
+
+100行くらいを目安に分割すると良し。
+
+
 \クラス
 dartはオブジェクト指向言語。すべてのオブジェクトはなんらかのクラスを実体化したもの
 dartではインスタンス化に使うnewは不必要(使ってもいい)
